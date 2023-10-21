@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="https://www.w3.org/2005/Atom">
+	<channel>
+		<title>PaPa-jun's Blog</title>
+		<description>斯人若彩虹，遇上方知有。</description>
+		<link>/</link>
+		<atom:link href="/" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>春天来了</title>
+				<description>
+</description>
+				<pubDate>Sat, 21 Oct 2023 00:00:00 +0800</pubDate>
+				<link>/blog/My-second-post.html</link>
+				<guid isPermaLink="true">/blog/My-second-post.html</guid>
+			</item>
+		
+			<item>
+				<title>偶尔泛起的一丝乡情</title>
+				<description>&lt;div&gt;
+昨天下课，走在三教回宿舍的路上，看到一直小猫，静静地趴在路边，学校里其实经常可以看到这样的景象
+&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Sat, 21 Oct 2023 00:00:00 +0800</pubDate>
+				<link>/blog/My-first-post.html</link>
+				<guid isPermaLink="true">/blog/My-first-post.html</guid>
+			</item>
+		
+	</channel>
+</rss>
