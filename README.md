@@ -1,4 +1,4 @@
-# Microdust 微尘
+# 基于 Microdust 微尘的模板，做了一些自己的个性化
 
 This is a blog created by Azeril. The blog is live at [Stardust](https://azeril.com/).
 
