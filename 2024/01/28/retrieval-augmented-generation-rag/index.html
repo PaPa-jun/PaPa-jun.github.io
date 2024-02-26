@@ -10,6 +10,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="HgsToK3ZxZJZIqVxip_TXcZziIHvfCe4EpAZUc_9F">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -20,7 +21,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":"auto","version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":"auto","version":"8.19.1","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="在向类似 ChatGPT 这样的 LLM (Large language Model) 提问时经常遇到类似 “幻觉” 的问题或者需要让 LLM 访问私域的数据库，此时可以给 LLM 外挂一个数据库，通过从该数据库检索相关知识提供给 LLM 作为 prompt 以及用户的问题，可以得到更加准确的专业性更强的答案。这样的技术就是检索增强生成 (Retrieval Augmented Generatio">
 <meta property="og:type" content="article">
@@ -191,10 +192,10 @@
 </div>
   <div class="links-of-author animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/PaPa-jun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;PaPa-jun" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1BhUGEtanVu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;PaPa-jun"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:pengyufeng2003@outlook.com" title="E-Mail → mailto:pengyufeng2003@outlook.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOnBlbmd5dWZlbmcyMDAzQG91dGxvb2suY29t" title="E-Mail → mailto:pengyufeng2003@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
   </div>
 
@@ -349,7 +350,7 @@
 <p>首先，我们索引我们的知识库。我们获取知识并使用加载器将其转换为单独的文档，然后使用拆分器将其转换为一口大小的块或片段。一旦我们有了这些，我们就把它们传递给嵌入机，嵌入机将它们转换成可用于语义搜索的向量。我们将这些嵌入及其文本片段保存在我们的矢量数据库中。</p>
 <p>接下来是检索。它从问题开始，然后通过相同的嵌入机发送并传递到我们的矢量数据库以确定最接近的匹配片段，我们将用它来回答问题。</p>
 <p>最后，增强答案生成。我们获取知识片段，将它们与自定义系统提示和我们的问题一起格式化，最后得到我们上下文特定的答案。</p>
-<p>注：本文参考<br><a target="_blank" rel="noopener" href="https://scriv.ai/guides/retrieval-augmented-generation-overview/">How do domain-specific chatbots work? An Overview of Retrieval Augmented Generation (RAG)</a><br><a target="_blank" rel="noopener" href="https://www.yuque.com/serviceup/misc/cn-retrieval-augmented-generation-overview">【译】私域聊天机器人如何工作？检索增强的内容生成（RAG）概述</a></p>
+<p>注：本文参考<br><span class="exturl" data-url="aHR0cHM6Ly9zY3Jpdi5haS9ndWlkZXMvcmV0cmlldmFsLWF1Z21lbnRlZC1nZW5lcmF0aW9uLW92ZXJ2aWV3Lw==">How do domain-specific chatbots work? An Overview of Retrieval Augmented Generation (RAG)<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly93d3cueXVxdWUuY29tL3NlcnZpY2V1cC9taXNjL2NuLXJldHJpZXZhbC1hdWdtZW50ZWQtZ2VuZXJhdGlvbi1vdmVydmlldw==">【译】私域聊天机器人如何工作？检索增强的内容生成（RAG）概述<i class="fa fa-external-link-alt"></i></span></p>
 
     </div>
 

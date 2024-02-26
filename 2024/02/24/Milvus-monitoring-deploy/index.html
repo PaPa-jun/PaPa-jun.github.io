@@ -10,6 +10,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="HgsToK3ZxZJZIqVxip_TXcZziIHvfCe4EpAZUc_9F">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -20,7 +21,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":"auto","version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":"auto","version":"8.19.1","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="在使用 Milvus 向量数据库时，我们经常需要监控数据库的一些关键信息如内存占用，访问量等等，本文讲述如何部署相应的可视化监控系统。  利用 Prometheus 监控数据库指标指标是提供有关系统运行状态信息的指标。例如，通过指标，你可以了解 Milvus 中一个数据节点消耗了多少内存或 CPU 资源。了解 Milvus 集群中组件的性能和状态，可以让你充分了解情况，从而做出更好的决策，更及时">
 <meta property="og:type" content="article">
@@ -185,10 +186,10 @@
 </div>
   <div class="links-of-author animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/PaPa-jun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;PaPa-jun" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1BhUGEtanVu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;PaPa-jun"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:pengyufeng2003@outlook.com" title="E-Mail → mailto:pengyufeng2003@outlook.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOnBlbmd5dWZlbmcyMDAzQG91dGxvb2suY29t" title="E-Mail → mailto:pengyufeng2003@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
   </div>
 
@@ -268,7 +269,7 @@
 <p>在使用 Milvus 向量数据库时，我们经常需要监控数据库的一些关键信息如内存占用，访问量等等，本文讲述如何部署相应的可视化监控系统。</p>
 </blockquote>
 <h2 id="利用-Prometheus-监控数据库指标"><a href="#利用-Prometheus-监控数据库指标" class="headerlink" title="利用 Prometheus 监控数据库指标"></a>利用 Prometheus 监控数据库指标</h2><p>指标是提供有关系统运行状态信息的指标。例如，通过指标，你可以了解 Milvus 中一个数据节点消耗了多少内存或 CPU 资源。了解 Milvus 集群中组件的性能和状态，可以让你充分了解情况，从而做出更好的决策，更及时地调整资源配置。</p>
-<h3 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h3><p>本教程使用 <a target="_blank" rel="noopener" href="https://github.com/prometheus-operator/kube-prometheus">kube-prometheus</a> 为省去安装和手动配置每个监控告警组件的麻烦。</p>
+<h3 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h3><p>本教程使用 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3Byb21ldGhldXMtb3BlcmF0b3Iva3ViZS1wcm9tZXRoZXVz">kube-prometheus<i class="fa fa-external-link-alt"></i></span> 为省去安装和手动配置每个监控告警组件的麻烦。</p>
 <p>首先基于 Kubernetes 集群部署 Milvus 向量数据库，参见 <a href="/2024/02/22/Miilvus-Deploy-Kubernetes/" title="Windos 环境下 Milvus 向量数据库的 k8s 集群部署">Windos 环境下 Milvus 向量数据库的 k8s 集群部署</a>。</p>
 <p>接下来需要使用 <code>kube-prometheus/manifests</code> 目录下的配置创建监控堆栈。</p>
 <figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/prometheus-operator/kube-prometheus.git</span><br><span class="line">cd kube-prometheus</span><br><span class="line">kubectl apply --server-side -f manifests/setup</span><br><span class="line">kubectl wait `</span><br><span class="line">        --for condition=Established `</span><br><span class="line">        --all CustomResourceDefinition `</span><br><span class="line">        --namespace=monitoring</span><br><span class="line">kubectl apply -f manifests/</span><br></pre></td></tr></tbody></table></figure>
@@ -318,8 +319,8 @@
 <h3 id="选择数据源"><a href="#选择数据源" class="headerlink" title="选择数据源"></a>选择数据源</h3><p>导入仪表盘后选择刚刚创建的数据源，就可以成功检测到向量数据库的各种指标了。</p>
 <p><img src="/assets/DeepLearning/Milvus/Done.png" alt="Done"></p>
 <h2 id="本文参考"><a href="#本文参考" class="headerlink" title="本文参考"></a>本文参考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://milvus.io/docs/monitor.md#Deploy-monitoring-services-on-Kubernetes">Deploying Monitoring Services on Kubernetes</a></li>
-<li><a target="_blank" rel="noopener" href="https://milvus.io/docs/visualize.md">Visualize Milvus Metrics in Grafana</a></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9taWx2dXMuaW8vZG9jcy9tb25pdG9yLm1kI0RlcGxveS1tb25pdG9yaW5nLXNlcnZpY2VzLW9uLUt1YmVybmV0ZXM=">Deploying Monitoring Services on Kubernetes<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9taWx2dXMuaW8vZG9jcy92aXN1YWxpemUubWQ=">Visualize Milvus Metrics in Grafana<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
 
     </div>
