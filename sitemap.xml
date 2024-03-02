@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://papa-jun.github.io/links/index.html</loc>
+    
+    <lastmod>2024-03-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://papa-jun.github.io/2024/02/05/Note%20for%20D2L-2.2/</loc>
     
     <lastmod>2024-03-02</lastmod>
@@ -221,20 +230,6 @@
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/LC-3/</loc>
-    <lastmod>2024-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://papa-jun.github.io/tags/C/</loc>
-    <lastmod>2024-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://papa-jun.github.io/tags/Milvus/</loc>
     <lastmod>2024-03-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -256,7 +251,35 @@
   </url>
   
   <url>
+    <loc>https://papa-jun.github.io/tags/LC-3/</loc>
+    <lastmod>2024-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://papa-jun.github.io/tags/C/</loc>
+    <lastmod>2024-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://papa-jun.github.io/tags/Emotion/</loc>
+    <lastmod>2024-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://papa-jun.github.io/tags/Prometheus/</loc>
+    <lastmod>2024-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://papa-jun.github.io/tags/Grafana/</loc>
     <lastmod>2024-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -278,20 +301,6 @@
   
   <url>
     <loc>https://papa-jun.github.io/tags/D2L/</loc>
-    <lastmod>2024-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://papa-jun.github.io/tags/Prometheus/</loc>
-    <lastmod>2024-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://papa-jun.github.io/tags/Grafana/</loc>
     <lastmod>2024-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
