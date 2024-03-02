@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://papa-jun.github.io/2024/02/05/Note%20for%20D2L-2.2/</loc>
+    
+    <lastmod>2024-03-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://papa-jun.github.io/2024/02/22/Miilvus-Deploy-Kubernetes/</loc>
     
     <lastmod>2024-02-28</lastmod>
@@ -77,15 +86,6 @@
     <loc>https://papa-jun.github.io/2024/02/17/prodigal/</loc>
     
     <lastmod>2024-02-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://papa-jun.github.io/2024/02/05/Note%20for%20D2L-2.2/</loc>
-    
-    <lastmod>2024-02-05</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -221,13 +221,6 @@
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/Emotion/</loc>
-    <lastmod>2024-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://papa-jun.github.io/tags/LC-3/</loc>
     <lastmod>2024-03-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -256,14 +249,14 @@
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/Prometheus/</loc>
+    <loc>https://papa-jun.github.io/tags/k8s/</loc>
     <lastmod>2024-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/Grafana/</loc>
+    <loc>https://papa-jun.github.io/tags/Emotion/</loc>
     <lastmod>2024-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -291,7 +284,14 @@
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/k8s/</loc>
+    <loc>https://papa-jun.github.io/tags/Prometheus/</loc>
+    <lastmod>2024-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://papa-jun.github.io/tags/Grafana/</loc>
     <lastmod>2024-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
