@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://papa-jun.github.io/Chinese/index.html</loc>
+    
+    <lastmod>2024-03-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://papa-jun.github.io/2024/03/03/LaTeX-Docs/</loc>
     
     <lastmod>2024-03-03</lastmod>
@@ -32,15 +41,6 @@
     <loc>https://papa-jun.github.io/2024/02/22/Miilvus-Deploy-Kubernetes/</loc>
     
     <lastmod>2024-02-28</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://papa-jun.github.io/Chinese/index.html</loc>
-    
-    <lastmod>2024-02-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -253,13 +253,6 @@
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/LaTeX/</loc>
-    <lastmod>2024-03-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://papa-jun.github.io/tags/Emotion/</loc>
     <lastmod>2024-03-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -281,13 +274,6 @@
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/k8s/</loc>
-    <lastmod>2024-03-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://papa-jun.github.io/tags/Prometheus/</loc>
     <lastmod>2024-03-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -296,6 +282,20 @@
   
   <url>
     <loc>https://papa-jun.github.io/tags/Grafana/</loc>
+    <lastmod>2024-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://papa-jun.github.io/tags/LaTeX/</loc>
+    <lastmod>2024-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://papa-jun.github.io/tags/k8s/</loc>
     <lastmod>2024-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
