@@ -253,14 +253,14 @@
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/Emotion/</loc>
+    <loc>https://papa-jun.github.io/tags/LaTeX/</loc>
     <lastmod>2024-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://papa-jun.github.io/tags/LaTeX/</loc>
+    <loc>https://papa-jun.github.io/tags/Emotion/</loc>
     <lastmod>2024-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -275,6 +275,13 @@
   
   <url>
     <loc>https://papa-jun.github.io/tags/Docker/</loc>
+    <lastmod>2024-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://papa-jun.github.io/tags/k8s/</loc>
     <lastmod>2024-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -310,13 +317,6 @@
   
   <url>
     <loc>https://papa-jun.github.io/tags/D2L/</loc>
-    <lastmod>2024-03-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://papa-jun.github.io/tags/k8s/</loc>
     <lastmod>2024-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
