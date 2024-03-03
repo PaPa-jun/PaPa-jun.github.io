@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -166,7 +166,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -200,7 +200,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://papa-jun.github.io/2024/02/22/Miilvus-Deploy-Kubernetes/">
+    <link itemprop="mainEntityOfPage" href="https://papa-jun.github.io/2024/02/24/Milvus-monitoring-deploy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -218,7 +218,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/02/22/Miilvus-Deploy-Kubernetes/" class="post-title-link" itemprop="url">Windos 环境下 Milvus 向量数据库的 k8s 集群部署</a>
+          <a href="/2024/02/24/Milvus-monitoring-deploy/" class="post-title-link" itemprop="url">Windows 下基于 Prometheus 的 Milvus 监控系统部署及 Grafana 可视化</a>
         </h2>
 
         <div class="post-meta-container">
@@ -228,15 +228,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2024-02-22 22:08:53" itemprop="dateCreated datePublished" datetime="2024-02-22T22:08:53+08:00">2024-02-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-02-28 19:42:08" itemprop="dateModified" datetime="2024-02-28T19:42:08+08:00">2024-02-28</time>
+      <time title="Created: 2024-02-24 14:29:25 / Modified: 16:38:44" itemprop="dateCreated datePublished" datetime="2024-02-24T14:29:25+08:00">2024-02-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,68 +252,62 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><ul>
-<li>安装并启动 Docker</li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9kbC5rOHMuaW8vcmVsZWFzZS92MS4yOS4yL2Jpbi93aW5kb3dzL2FtZDY0L2t1YmVjdGwuZXhl"> 下载 kubectl.exe<i class="fa fa-external-link-alt"></i></span>之后将文件路径加入环境变量</li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL21pbmlrdWJlL3JlbGVhc2VzL2xhdGVzdC9taW5pa3ViZS1pbnN0YWxsZXIuZXhl">安装 Minikube<i class="fa fa-external-link-alt"></i></span>并加入环境变量</li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hlbG0vaGVsbS9yZWxlYXNlcw==">下载安装 Helm<i class="fa fa-external-link-alt"></i></span></li>
-</ul>
-<h2 id="用-minikube-启动-k8s-集群"><a href="#用-minikube-启动-k8s-集群" class="headerlink" title="用 minikube 启动 k8s 集群"></a>用 minikube 启动 k8s 集群</h2><p>在终端中执行如下命令启动 k8s 集群：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube start</span><br></pre></td></tr></tbody></table></figure>
+          <blockquote>
+<p>在使用 Milvus 向量数据库时，我们经常需要监控数据库的一些关键信息如内存占用，访问量等等，本文讲述如何部署相应的可视化监控系统。</p>
+</blockquote>
+<h2 id="利用-Prometheus-监控数据库指标"><a href="#利用-Prometheus-监控数据库指标" class="headerlink" title="利用 Prometheus 监控数据库指标"></a>利用 Prometheus 监控数据库指标</h2><p>指标是提供有关系统运行状态信息的指标。例如，通过指标，你可以了解 Milvus 中一个数据节点消耗了多少内存或 CPU 资源。了解 Milvus 集群中组件的性能和状态，可以让你充分了解情况，从而做出更好的决策，更及时地调整资源配置。</p>
+<h3 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h3><p>本教程使用 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3Byb21ldGhldXMtb3BlcmF0b3Iva3ViZS1wcm9tZXRoZXVz">kube-prometheus<i class="fa fa-external-link-alt"></i></span> 为省去安装和手动配置每个监控告警组件的麻烦。</p>
+<p>首先基于 Kubernetes 集群部署 Milvus 向量数据库，参见 <a href="/2024/02/22/Miilvus-Deploy-Kubernetes/" title="Windos 环境下 Milvus 向量数据库的 k8s 集群部署">Windos 环境下 Milvus 向量数据库的 k8s 集群部署</a>。</p>
+<p>接下来需要使用 <code>kube-prometheus/manifests</code> 目录下的配置创建监控堆栈。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/prometheus-operator/kube-prometheus.git</span><br><span class="line">cd kube-prometheus</span><br><span class="line">kubectl apply --server-side -f manifests/setup</span><br><span class="line">kubectl wait `</span><br><span class="line">        --for condition=Established `</span><br><span class="line">        --all CustomResourceDefinition `</span><br><span class="line">        --namespace=monitoring</span><br><span class="line">kubectl apply -f manifests/</span><br></pre></td></tr></tbody></table></figure>
 
-<h2 id="检查-k8s-集群状态"><a href="#检查-k8s-集群状态" class="headerlink" title="检查 k8s 集群状态"></a>检查 k8s 集群状态</h2><p>执行指令:</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get sc</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>默认的 prometheus-k8s clusterrole 无法捕获 milvus 的指标，需要打补丁：</p>
+</blockquote>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl patch clusterrole prometheus-k8s --<span class="built_in">type</span>=json -p=<span class="string">'[{"op": "add", "path": "/rules/-", "value": {"apiGroups": [""], "resources": ["pods", "services", "endpoints"], "verbs": ["get", "watch", "list"]}}]'</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p><strong>Note</strong> ：该命令要用 <code>bash</code> 执行，若用 <code>PowerShell</code> 则会因为转义字符的原因报错。</p>
+</blockquote>
+<p>要删除堆栈，请运行：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete --ignore-not-found=true -f manifests/ -f manifests/setup</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="在-Kubernetes-上部署监控服务"><a href="#在-Kubernetes-上部署监控服务" class="headerlink" title="在 Kubernetes 上部署监控服务"></a>在 Kubernetes 上部署监控服务</h3><h4 id="访问仪表盘"><a href="#访问仪表盘" class="headerlink" title="访问仪表盘"></a>访问仪表盘</h4><p>将 Prometheus 服务转发到端口 <code>9090</code> ，将 Grafana 服务转发到端口 <code>3000</code>。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl --namespace monitoring --address 0.0.0.0 port-forward svc/prometheus-k8s 9090</span><br><span class="line">kubectl --namespace monitoring --address 0.0.0.0 port-forward svc/grafana 3000</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p><strong>Note</strong> ：这里要尽量新开两个终端执行命令，避免端口冲突，并且执行过后不要关闭终端。如果报错，请等待一段时间后新开终端执行命令。</p>
+</blockquote>
+<h4 id="启用-ServiceMonitor"><a href="#启用-ServiceMonitor" class="headerlink" title="启用 ServiceMonitor"></a>启用 ServiceMonitor</h4><p>Milvus Helm 默认未开启 ServiceMonitor。在 Kubernetes 集群中安装 Prometheus Operator 后，可以通过添加参数 <code>metrics.serviceMontior.enabled=true</code> 来启用它。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm upgrade my-release milvus/milvus --set metrics.serviceMonitor.enabled=true --reuse-values</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>这里的 <code>helm upgrade</code> 命令同样可以用 <a href="/2024/02/22/Miilvus-Deploy-Kubernetes/" title="Windos 环境下 Milvus 向量数据库的 k8s 集群部署">Windos 环境下 Milvus 向量数据库的 k8s 集群部署</a> 中 <code>helm install</code> 报错后的本地安装方法的命令一样利用本地安装包更新，且两条命令使用的是同一个安装包。</p>
+</blockquote>
+<p>安装完成后，检查 ServiceMonitor 资源。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get servicemonitor</span><br></pre></td></tr></tbody></table></figure>
 
 <p>返回：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">standard (default)   k8s.io/minikube-hostpath   Delete          Immediate           false                  8s</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NAME                           AGE</span><br><span class="line">my-release-milvus              54s</span><br></pre></td></tr></tbody></table></figure>
 
-<h2 id="安装-Helm-Chart-for-Milvus"><a href="#安装-Helm-Chart-for-Milvus" class="headerlink" title="安装 Helm Chart for Milvus"></a>安装 Helm Chart for Milvus</h2><p>Helm 是一个 K8s 包管理器，快速部署 Milvus。</p>
-<h3 id="将-Milvus-添加到-Helm-的仓库中"><a href="#将-Milvus-添加到-Helm-的仓库中" class="headerlink" title="将 Milvus 添加到 Helm 的仓库中"></a>将 Milvus 添加到 Helm 的仓库中</h3><p>执行命令：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm repo add milvus https://zilliztech.github.io/milvus-helm/</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="在-Grafana-中可视化-Milvus-指标"><a href="#在-Grafana-中可视化-Milvus-指标" class="headerlink" title="在 Grafana 中可视化 Milvus 指标"></a>在 Grafana 中可视化 Milvus 指标</h2><h3 id="打开-Grafana-可视化面板"><a href="#打开-Grafana-可视化面板" class="headerlink" title="打开 Grafana 可视化面板"></a>打开 Grafana 可视化面板</h3><p>在浏览器地址栏输入 <code>http://localhost:3000</code> 进入 Grafana 面板，键入 <code>用户名:密码</code> <code>admin:admin</code> 登录。</p>
+<h3 id="检查-Prometheus-是端口是否连通"><a href="#检查-Prometheus-是端口是否连通" class="headerlink" title="检查 Prometheus 是端口是否连通"></a>检查 Prometheus 是端口是否连通</h3><p>进入 <code>Home &gt; Connections &gt; Datasources &gt; prometheus</code> 底部，点击 <code>Test</code> 。</p>
+<p><img src="/assets/DeepLearning/Milvus/Grafana-PrometheusTest.png" alt="Prometheus Test"></p>
+<p>如果像我一样报错就说明端口 <code>9090</code> 没有连通。</p>
+<p>接下来添加一个新的 Prometheus 的数据源，尝试将 <code>Connection</code> 下的 <code>Prometheus server URL</code> 改为可以连通的地址，如果是用终端开启的端口，即用 Windows 终端执行的前文的端口转发命令，则尝试 URL: <code>http://host.docker.internal:9090</code>。</p>
+<p><img src="/assets/DeepLearning/Milvus/Change%20URL.png" alt="Change URL"></p>
+<p>此时再测试，发现成功连接。</p>
+<p><img src="/assets/DeepLearning/Milvus/Grafana-PrometheusTestAgain.png" alt="TestAgain"></p>
+<h3 id="下载配置文件并导入仪表盘"><a href="#下载配置文件并导入仪表盘" class="headerlink" title="下载配置文件并导入仪表盘"></a>下载配置文件并导入仪表盘</h3><p>从 JSON 文件下载并导入 Milvus Dashboard。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/milvus-io/milvus/2.2.0/deployments/monitor/grafana/milvus-dashboard.json</span><br></pre></td></tr></tbody></table></figure>
 
-<h3 id="更行本地-Helm-储存库"><a href="#更行本地-Helm-储存库" class="headerlink" title="更行本地 Helm 储存库"></a>更行本地 Helm 储存库</h3><p>执行命令：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm repo update</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="启动-Milvus"><a href="#启动-Milvus" class="headerlink" title="启动 Milvus"></a>启动 Milvus</h2><p>安装好了 Helm Chart 之后，执行命令：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm install my-release milvus/milvus --set cluster.enabled=false --set etcd.replicaCount=1 --set minio.mode=standalone --set pulsar.enabled=false</span><br></pre></td></tr></tbody></table></figure>
-
-<blockquote>
-<p>如果报错无法连接到服务器，可以将安装文件<span class="exturl" data-url="aHR0cHM6Ly9vYmplY3RzLmdpdGh1YnVzZXJjb250ZW50LmNvbS9naXRodWItcHJvZHVjdGlvbi1yZWxlYXNlLWFzc2V0LTJlNjViZS82NzU2MDIwNTIvNzk2ODdhNzQtZGU3MC00OWY1LWE5NGQtM2E4YzhiMGJhZTI2P1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkEvMjAyNDAyMjIvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwMjIyVDE0NDAyNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTRlZDM5ZDExNWFiYzVlMTZhZGZiNDZlZDAzZmU2MGE4ZDhkZWJmZWMzYWJjZjBlMGY5YzViZTc1MWM3YWNmMzEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD02NzU2MDIwNTImcmVzcG9uc2UtY29udGVudC1kaXNwb3NpdGlvbj1hdHRhY2htZW50OyUyMGZpbGVuYW1lPW1pbHZ1cy00LjEuMTgudGd6JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1hcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0=">下载到本地<i class="fa fa-external-link-alt"></i></span>再执行命令</p>
-</blockquote>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm install my-release filename.tgz --set cluster.enabled=false --set etcd.replicaCount=1 --set minio.mode=standalone --set pulsar.enabled=false</span><br></pre></td></tr></tbody></table></figure>
-
-<blockquote>
-<p>我的下载连接是从自己的报错信息中获取的：</p>
-</blockquote>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: INSTALLATION FAILED: Get "https://objects.githubusercontent.com/github-production-release-asset-2e65be/675602052/79687a74-de70-49f5-a94d-3a8c8b0bae26?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240222%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20240222T144025Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=4ed39d115abc5e16adfb46ed03fe60a8d8debfec3abcf0e0f9c5be751c7acf31&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=675602052&amp;response-content-disposition=attachment%3B%20filename%3Dmilvus-4.1.18.tgz&amp;response-content-type=application%2Foctet-stream": read tcp 100.64.131.14:29116-&gt;185.199.108.133:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.</span><br></pre></td></tr></tbody></table></figure>
-
-<blockquote>
-<p>就是其中 <code>Get</code> 之后双引号内的网址。</p>
-</blockquote>
-<p>启动之后再执行 <code>kubectl get pods</code> 直到返回：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NAME                                            READY   STATUS    RESTARTS   AGE</span><br><span class="line">my-release-etcd-0                               1/1     Running   0          3m17s</span><br><span class="line">my-release-milvus-standalone-6bc558d66d-plxpk   1/1     Running   0          3m17s</span><br><span class="line">my-release-minio-5fb685db85-h7w2x               1/1     Running   0          3m17s</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="连接到-Milvus"><a href="#连接到-Milvus" class="headerlink" title="连接到 Milvus"></a>连接到 Milvus</h2><p>执行如下命令：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl port-forward service/my-release-milvus 19530</span><br></pre></td></tr></tbody></table></figure>
-
-<p>返回：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Forwarding from 127.0.0.1:19530 -&gt; 19530</span><br><span class="line">Forwarding from [::1]:19530 -&gt; 19530</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="卸载-Milvus-实例"><a href="#卸载-Milvus-实例" class="headerlink" title="卸载 Milvus 实例"></a>卸载 Milvus 实例</h2><p>执行命令：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm uninstall my-release</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="停用集群"><a href="#停用集群" class="headerlink" title="停用集群"></a>停用集群</h2><p>执行命令：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube stop</span><br></pre></td></tr></tbody></table></figure>
-
-<blockquote>
-<p>停用集群不删除向量数据库的数据。</p>
-</blockquote>
-<h2 id="删除集群"><a href="#删除集群" class="headerlink" title="删除集群"></a>删除集群</h2><p>执行命令：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube delete</span><br></pre></td></tr></tbody></table></figure>
-
+<p>通过命令获取困难的，可以采用本站提供的<a href="/downloads/code/milvus-dashbord.json">配置文件</a>，该文件就是官方提供的配置文件。</p>
+<p><img src="/assets/DeepLearning/Milvus/Grafana-ImportDashboard.png" alt="Import"></p>
+<h3 id="选择数据源"><a href="#选择数据源" class="headerlink" title="选择数据源"></a>选择数据源</h3><p>导入仪表盘后选择刚刚创建的数据源，就可以成功检测到向量数据库的各种指标了。</p>
+<p><img src="/assets/DeepLearning/Milvus/Done.png" alt="Done"></p>
 <h2 id="本文参考"><a href="#本文参考" class="headerlink" title="本文参考"></a>本文参考</h2><ul>
-<li><span class="exturl" data-url="aHR0cHM6Ly9taWx2dXMuaW8vZG9jcy9pbnN0YWxsX3N0YW5kYWxvbmUtaGVsbS5tZA==">Install Milvus Standalone with Kubernetes<i class="fa fa-external-link-alt"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9nZWVrZGF4dWUuY28vcmVhZC9taWx2dXMtZG9jcy12Mi9zaXRlLXpoLUNOLWdldHN0YXJ0ZWQtc3RhbmRhbG9uZS1pbnN0YWxsX3N0YW5kYWxvbmUtaGVsbS5tZA==">Milvus 帮助手册 - 教程 - V2 版本<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9taWx2dXMuaW8vZG9jcy9tb25pdG9yLm1kI0RlcGxveS1tb25pdG9yaW5nLXNlcnZpY2VzLW9uLUt1YmVybmV0ZXM=">Deploying Monitoring Services on Kubernetes<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9taWx2dXMuaW8vZG9jcy92aXN1YWxpemUubWQ=">Visualize Milvus Metrics in Grafana<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
 
       
@@ -340,7 +328,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
