@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="RmlE0E9pEoEIpffMKfGgdVUuEUchOngNmQcwRKxzydo">
+  <meta name="msvalidate.01" content="0D3EC47105AF512C8387BEDF5F1CC77A">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300italic,400,400italic,700,700italic%7CSource+Code+Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"papa-jun.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":"auto","version":"8.19.1","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本节主要介绍深度学习中最基本的数据类型 “张量” 的简单操作。  首先，我们介绍  维数组，也称为张量 tensor。使用过 Python 中 NumPy 计算包的读者会对本部分很熟悉。无论用哪个深度学习框架，它的张量类（在 MXNet 中为 ndarray，在 PyTorch 和 TensorFlow 中为 Tensor 都与 Numpy 的 ndarray 类似。 但深度学习框架又比 Nump">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《动手学习深度学习》学习笔记 - 2.1 数据操作">
+<meta property="og:url" content="https://papa-jun.github.io/2024/02/05/Note%20for%20D2L-2.1/index.html">
+<meta property="og:site_name" content="PaPa_jun&#39;s Blog">
+<meta property="og:description" content="本节主要介绍深度学习中最基本的数据类型 “张量” 的简单操作。  首先，我们介绍  维数组，也称为张量 tensor。使用过 Python 中 NumPy 计算包的读者会对本部分很熟悉。无论用哪个深度学习框架，它的张量类（在 MXNet 中为 ndarray，在 PyTorch 和 TensorFlow 中为 Tensor 都与 Numpy 的 ndarray 类似。 但深度学习框架又比 Nump">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-02-04T17:04:21.000Z">
+<meta property="article:modified_time" content="2024-02-04T18:11:50.000Z">
+<meta property="article:author" content="YufengPeng">
+<meta property="article:tag" content="DeepLearning">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Pytorch">
+<meta property="article:tag" content="D2L">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://papa-jun.github.io/2024/02/05/Note%20for%20D2L-2.1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://papa-jun.github.io/2024/02/05/Note%20for%20D2L-2.1/","path":"2024/02/05/Note for D2L-2.1/","title":"《动手学习深度学习》学习笔记 - 2.1 数据操作"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>《动手学习深度学习》学习笔记 - 2.1 数据操作 | PaPa_jun's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">PaPa_jun's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-links"><a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a></li><li class="menu-item menu-item-works"><a href="/work/" rel="section"><i class="fa fa-inbox fa-fw"></i>Works</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%A0%E9%87%8F%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">张量的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">广播机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%92%8C%E5%88%87%E7%89%87"><span class="nav-number">4.</span> <span class="nav-text">索引和切片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95"><span class="nav-number">4.1.</span> <span class="nav-text">索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%87%E7%89%87"><span class="nav-number">4.2.</span> <span class="nav-text">切片</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E7%9C%81%E5%86%85%E5%AD%98"><span class="nav-number">5.</span> <span class="nav-text">节省内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%85%B6%E4%BB%96-Python-%E5%AF%B9%E8%B1%A1"><span class="nav-number">6.</span> <span class="nav-text">转换为其他 Python 对象</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YufengPeng"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YufengPeng</p>
+  <div class="site-description" itemprop="description">Do not go gentle into that good night.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1BhUGEtanVu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;PaPa-jun"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnBlbmd5dWZlbmcyMDAzQG91dGxvb2suY29t" title="E-Mail → mailto:pengyufeng2003@outlook.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://papa-jun.github.io/2024/02/05/Note%20for%20D2L-2.1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YufengPeng">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PaPa_jun's Blog">
+      <meta itemprop="description" content="Do not go gentle into that good night.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="《动手学习深度学习》学习笔记 - 2.1 数据操作 | PaPa_jun's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《动手学习深度学习》学习笔记 - 2.1 数据操作
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-02-05 01:04:21 / Modified: 02:11:50" itemprop="dateCreated datePublished" datetime="2024-02-05T01:04:21+08:00">2024-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Learning/" itemprop="url" rel="index"><span itemprop="name">Learning</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Learning/Note/" itemprop="url" rel="index"><span itemprop="name">Note</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本节主要介绍深度学习中最基本的数据类型 “张量” 的简单操作。</p>
+<blockquote>
+<p>首先，我们介绍 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="1.357ex" height="1.025ex" role="img" focusable="false" viewBox="0 -442 600 453"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g></g></g></svg></mjx-container> 维数组，也称为<strong>张量</strong> <code>tensor</code>。使用过 Python 中 NumPy 计算包的读者会对本部分很熟悉。无论用哪个深度学习框架，它的张量类（在 MXNet 中为 <code>ndarray</code>，在 PyTorch 和 TensorFlow 中为 <code>Tensor</code> 都与 Numpy 的 <code>ndarray</code> 类似。 但深度学习框架又比 Numpy 的 <code>ndarray</code> 多一些重要功能：首先，GPU 很地支持加速计算，而 NumPy 仅支持 CPU 计算； 其次，张量类支持自动微分。这些功能使得张量类更合深度学习。</p>
+</blockquote>
+<h3 id="张量的创建"><a href="#张量的创建" class="headerlink" title="张量的创建"></a>张量的创建</h3><p>张量表示一个由数值组成的数组，这个数组可能有多个维度。具有一个轴的张量对应数学上的向量 (vector)；具有两个轴的张量对应数学上的矩阵 (matrix)；具有两个轴以上的张量没有特殊数学名称。</p>
+<p>在 Python 中我们可以通过 Pytorch 包来对张量数据进行操作，首先是创建一个张量。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.arange(<span class="number">12</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>上述代码创建了一个长度为 12，高度为 1 的张量，其中的元素是整数 0 到 1。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以通过 <code>shape</code> 属性访问张量的形状 (沿每个轴的长度)。还可以通过 <code>size</code> 属性得到张量的元素总数。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(x.reshape(<span class="number">3</span>,<span class="number">4</span>).shape, x.numel())</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.Size([<span class="number">3</span>,<span class="number">4</span>]), <span class="number">12</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们可以利用 <code>reshape</code> 操作改变张量的形状，用 <code>zeros</code> 创建值全为零的张量，用 <code>ones</code> 创建值全为 1 的张量。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X = x.reshap(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">Y = torch.zeros((<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>))</span><br><span class="line">Z = torch.ones((<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(X)</span><br><span class="line"><span class="built_in">print</span>(Y)</span><br><span class="line"><span class="built_in">print</span>(Y)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">tensor([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">        [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>],</span><br><span class="line">        [ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"></span><br><span class="line">tensor([[[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">         [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">         [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>]],</span><br><span class="line"></span><br><span class="line">        [[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">         [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">         [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>]]])</span><br><span class="line"></span><br><span class="line">tensor([[[<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">         [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">         [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>]],</span><br><span class="line"></span><br><span class="line">        [[<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">         [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">         [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>]]])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>有时我们想通过从某个特定的概率分布中随机采样来得到张量中每个元素的值。以下代码创建一个形状为（3,4）的张量。 其中的每个元素都从均值为 0、标准差为 1 的标准高斯分布（正态分布）中随机采样。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(torch.randn(<span class="number">3</span>, <span class="number">4</span>))</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[-<span class="number">0.0135</span>,  <span class="number">0.0665</span>,  <span class="number">0.0912</span>,  <span class="number">0.3212</span>],</span><br><span class="line">        [ <span class="number">1.4653</span>,  <span class="number">0.1843</span>, -<span class="number">1.6995</span>, -<span class="number">0.3036</span>],</span><br><span class="line">        [ <span class="number">1.7646</span>,  <span class="number">1.0450</span>,  <span class="number">0.2457</span>, -<span class="number">0.7732</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当然我们也可以自己指定张量中的值。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(torch.tensor([[<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]]))</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">        [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>对于任意具有相同形状的张量，常见的标准算术运算符 (<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="1.76ex" height="1.505ex" role="img" focusable="false" viewBox="0 -583 778 665"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g></g></g></svg></mjx-container>、<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="1.76ex" height="1.505ex" role="img" focusable="false" viewBox="0 -583 778 665"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g></g></g></svg></mjx-container>、<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0.02ex;" xmlns="http://www.w3.org/2000/svg" width="1.76ex" height="1.09ex" role="img" focusable="false" viewBox="0 -491 778 482"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="D7" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path></g></g></g></svg></mjx-container>、<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.081ex;" xmlns="http://www.w3.org/2000/svg" width="1.76ex" height="1.296ex" role="img" focusable="false" viewBox="0 -537 778 573"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="F7" d="M318 466Q318 500 339 518T386 537Q418 537 438 517T458 466Q458 438 440 417T388 396Q355 396 337 417T318 466ZM56 237T56 250T70 270H706Q721 262 721 250T706 230H70Q56 237 56 250ZM318 34Q318 68 339 86T386 105Q418 105 438 85T458 34Q458 6 440 -15T388 -36Q355 -36 337 -15T318 34Z"></path></g></g></g></svg></mjx-container>和 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0.079ex;" xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="0.973ex" role="img" focusable="false" viewBox="0 -465 1000 430"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path></g><g data-mml-node="mo" transform="translate(500,0)"><path data-c="2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path></g></g></g></svg></mjx-container>) 都可以被升级为按元素运算。我们可以在同一形状的任意两个张量上调用按元素操作。在下面的例子中，我们使用逗号来表示一个具有 5 个元素的元组，其中每个元素都是按元素操作的结果。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">x = torch.tensor([<span class="number">1.0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">8</span>])</span><br><span class="line">y = torch.tensor([<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(x + y)</span><br><span class="line"><span class="built_in">print</span>(x - y)</span><br><span class="line"><span class="built_in">print</span>(x * y)</span><br><span class="line"><span class="built_in">print</span>(x / y)</span><br><span class="line"><span class="built_in">print</span>(x ** y)  <span class="comment"># **运算符是求幂运算</span></span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([ <span class="number">3.</span>,  <span class="number">4.</span>,  <span class="number">6.</span>, <span class="number">10.</span>]),</span><br><span class="line">tensor([-<span class="number">1.</span>,  <span class="number">0.</span>,  <span class="number">2.</span>,  <span class="number">6.</span>]),</span><br><span class="line">tensor([ <span class="number">2.</span>,  <span class="number">4.</span>,  <span class="number">8.</span>, <span class="number">16.</span>]),</span><br><span class="line">tensor([<span class="number">0.5000</span>, <span class="number">1.0000</span>, <span class="number">2.0000</span>, <span class="number">4.0000</span>]),</span><br><span class="line">tensor([ <span class="number">1.</span>,  <span class="number">4.</span>, <span class="number">16.</span>, <span class="number">64.</span>])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>“按元素” 方式可以应用更多的计算，包括像求幂这样的一元运算符，下面的代码计算 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="2.157ex" height="1.553ex" role="img" focusable="false" viewBox="0 -675.5 953.5 686.5"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mi"><path data-c="1D452" d="M39 168Q39 225 58 272T107 350T174 402T244 433T307 442H310Q355 442 388 420T421 355Q421 265 310 237Q261 224 176 223Q139 223 138 221Q138 219 132 186T125 128Q125 81 146 54T209 26T302 45T394 111Q403 121 406 121Q410 121 419 112T429 98T420 82T390 55T344 24T281 -1T205 -11Q126 -11 83 42T39 168ZM373 353Q367 405 305 405Q272 405 244 391T199 357T170 316T154 280T149 261Q149 260 169 260Q282 260 327 284T373 353Z"></path></g><g data-mml-node="mi" transform="translate(499,363) scale(0.707)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g></g></g></g></svg></mjx-container>。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(torch.exp(x))</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([<span class="number">2.7183e+00</span>, <span class="number">7.3891e+00</span>, <span class="number">5.4598e+01</span>, <span class="number">2.9810e+03</span>])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们也可以把多个张量连结 (concatenate) 在一起， 把它们端对端地叠起来形成一个更大的张量。 我们只需要提供张量列表，并给出沿哪个轴连结。下面的例子分别演示了当我们沿行 (轴 - 0，形状的第一个元素) 和按列 (轴 - 1，形状的第二个元素) 连结两个矩阵时，会发生什么情况。 我们可以看到，第一个输出张量的轴 - 0 长度 (6) 是两个输入张量轴 - 0 长度的总和 (<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="5.028ex" height="1.69ex" role="img" focusable="false" viewBox="0 -665 2222.4 747"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g><g data-mml-node="mo" transform="translate(722.2,0)"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g><g data-mml-node="mn" transform="translate(1722.4,0)"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g></g></g></svg></mjx-container>)；第二个输出张量的轴 - 1 长度 (8) 是两个输入张量轴 - 1 长度的总和 (<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="5.028ex" height="1.717ex" role="img" focusable="false" viewBox="0 -677 2222.4 759"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g><g data-mml-node="mo" transform="translate(722.2,0)"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g><g data-mml-node="mn" transform="translate(1722.4,0)"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g></g></g></svg></mjx-container>)。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">X = torch.arange(<span class="number">12</span>, dtype=torch.float32).reshape((<span class="number">3</span>,<span class="number">4</span>))</span><br><span class="line">Y = torch.tensor([[<span class="number">2.0</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(X)</span><br><span class="line"><span class="built_in">print</span>(Y)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tensor([[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>],</span><br><span class="line">         [ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">6.</span>,  <span class="number">7.</span>],</span><br><span class="line">         [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>],</span><br><span class="line">         [ <span class="number">2.</span>,  <span class="number">1.</span>,  <span class="number">4.</span>,  <span class="number">3.</span>],</span><br><span class="line">         [ <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>,  <span class="number">4.</span>],</span><br><span class="line">         [ <span class="number">4.</span>,  <span class="number">3.</span>,  <span class="number">2.</span>,  <span class="number">1.</span>]])</span><br><span class="line"></span><br><span class="line"> tensor([[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>,  <span class="number">2.</span>,  <span class="number">1.</span>,  <span class="number">4.</span>,  <span class="number">3.</span>],</span><br><span class="line">         [ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">6.</span>,  <span class="number">7.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>,  <span class="number">4.</span>],</span><br><span class="line">         [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>,  <span class="number">4.</span>,  <span class="number">3.</span>,  <span class="number">2.</span>,  <span class="number">1.</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们还可以根据逻辑运算符来创建张量。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(X == Y)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这样的到的张量是对张量 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="2.143ex" height="1.552ex" role="img" focusable="false" viewBox="0 -686 947 686"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D47F" d="M931 686Q953 686 953 670Q953 650 944 632Q936 624 924 624H914Q823 624 803 611Q800 609 696 503T591 396Q591 394 667 229L743 62H787H814Q846 62 846 44Q843 7 829 2Q825 0 817 0Q813 0 775 1T664 2Q590 2 551 1T508 0H507Q484 0 484 18Q484 19 488 37Q492 56 497 58T534 62L566 63Q567 64 520 169T471 274Q469 274 369 172T268 67L315 62Q320 62 328 62L335 61Q347 58 347 44Q344 10 331 2L326 0L287 1Q263 2 177 2Q95 2 78 1L53 0Q38 6 38 17Q38 40 50 57Q56 62 78 62Q169 62 188 75Q194 77 435 324L444 334L439 347Q437 351 373 492L313 624H268H246Q220 624 212 632Q210 636 210 642Q210 655 215 669T227 684Q230 686 247 686Q295 684 398 684Q438 684 472 684T527 685T551 686Q567 686 572 671Q572 667 568 651Q563 631 558 628T523 624T492 623H488L526 540Q563 457 564 457Q564 456 574 466T604 496T645 537L724 619Q716 622 677 624H673Q645 624 645 640Q645 660 654 678Q659 683 666 686L704 685Q728 684 813 684Q847 684 873 684T913 685T931 686Z"></path></g></g></g></svg></mjx-container> 和 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.982ex" height="1.552ex" role="img" focusable="false" viewBox="0 -686 876 686"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D480" d="M97 624H73Q40 624 40 640Q40 660 49 678Q57 686 77 686Q122 684 228 684Q269 684 304 684T360 685T385 686Q406 686 406 668Q406 662 403 653Q398 631 393 628T361 624H353Q321 624 321 623T376 491T432 360L448 377Q465 394 493 424T553 490L673 620Q662 624 630 624Q606 624 606 640Q608 678 623 684Q627 686 634 686Q638 686 671 685T755 684Q777 684 805 685T841 686Q861 686 868 683T876 669Q876 664 873 652Q868 631 863 628T829 624Q764 622 747 611Q727 590 590 441L437 275L411 170Q385 65 384 64Q384 62 429 62H453Q473 62 478 60T487 48Q488 44 484 29Q479 6 473 3Q468 0 454 0Q450 0 436 0T386 1T294 2Q220 2 181 1T138 0Q121 0 116 15Q120 54 133 60Q137 62 187 62H236L289 275L142 624H97Z"></path></g></g></g></svg></mjx-container> 按元素进行逻辑运算得到的。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="literal">False</span>,  <span class="literal">True</span>, <span class="literal">False</span>,  <span class="literal">True</span>],</span><br><span class="line">        [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>],</span><br><span class="line">        [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>对张量中的元素求和，可以产生一个单元素张量。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(X.<span class="built_in">sum</span>())</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor(<span class="number">66.</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h3><p>在上面的部分中，我们看到了如何在相同形状的两个张量上执行按元素操作。 在某些情况下，即使形状不同，我们仍然可以通过调用 广播机制 (broadcasting mechanism) 来执行按元素操作。 这种机制的工作方式如下：</p>
+<ul>
+<li>通过适当复制元素来扩展一个或两个数组，以便在转换之后，两个张量具有相同的形状；</li>
+<li>对生成的数组执行按元素操作。</li>
+</ul>
+<p>在大多数情况下，我们将沿着数组中长度为 1 的轴进行广播，如下例子：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = torch.arange(<span class="number">3</span>).reshape((<span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">b = torch.arange(<span class="number">2</span>).reshape((<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line"><span class="built_in">print</span>(b)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">0</span>],</span><br><span class="line">        [<span class="number">1</span>],</span><br><span class="line">        [<span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line">tensor([[<span class="number">0</span>, <span class="number">1</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>由于 a 和 b 分别是 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="5.028ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 2222.4 688"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g><g data-mml-node="mo" transform="translate(722.2,0)"><path data-c="D7" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path></g><g data-mml-node="mn" transform="translate(1722.4,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container> 和 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="5.028ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 2222.4 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mo" transform="translate(722.2,0)"><path data-c="D7" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path></g><g data-mml-node="mn" transform="translate(1722.4,0)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g></g></svg></mjx-container> 矩阵，如果让它们相加，它们的形状不匹配。 我们将两个矩阵广播为一个更大的 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="5.028ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 2222.4 688"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g><g data-mml-node="mo" transform="translate(722.2,0)"><path data-c="D7" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path></g><g data-mml-node="mn" transform="translate(1722.4,0)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g></g></svg></mjx-container> 矩阵，如下所示：矩阵 a 将复制列，矩阵 b 将复制行，然后再按元素相加。</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(a + b)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">        [<span class="number">2</span>, <span class="number">3</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="索引和切片"><a href="#索引和切片" class="headerlink" title="索引和切片"></a>索引和切片</h3><h4 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h4><p>张量中的元素可以通过索引访问，第一个元素的索引是 0，最后一个元素索引是 - 1，也可以指定范围以包含第一个元素和最后一个之前的元素。</p>
+<p>如下所示，我们可以用 <code>[-1]</code> 选择最后一个元素，可以用 <code>[1:3]</code> 选择第二个和第三个元素：</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(X[-<span class="number">1</span>])</span><br><span class="line"><span class="built_in">print</span>(X[<span class="number">1</span>:<span class="number">3</span>])</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tensor([ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>]),</span><br><span class="line"></span><br><span class="line">tensor([[ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">6.</span>,  <span class="number">7.</span>],</span><br><span class="line">        [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<p>除读取外，我们还可以通过指定索引来将元素写入矩阵。</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X[<span class="number">1</span>, <span class="number">2</span>] = <span class="number">9</span></span><br><span class="line"><span class="built_in">print</span>(X)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>],</span><br><span class="line">        [ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">9.</span>,  <span class="number">7.</span>],</span><br><span class="line">        [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h4><p>如果我们想为多个元素赋值相同的值，我们只需要索引所有元素，然后为它们赋值。例如，<code>[0:2, :]</code> 访问第 1 行和第 2 行，其中 <code>:</code> 代表沿轴 1 (列) 的所有元素。虽然我们讨论的是矩阵的索引，但这也适用于向量和超过 2 个维度的张量。</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X[<span class="number">0</span>:<span class="number">2</span>, :] = <span class="number">12</span></span><br><span class="line"><span class="built_in">print</span>(X)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">12.</span>, <span class="number">12.</span>, <span class="number">12.</span>, <span class="number">12.</span>],</span><br><span class="line">        [<span class="number">12.</span>, <span class="number">12.</span>, <span class="number">12.</span>, <span class="number">12.</span>],</span><br><span class="line">        [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>]])</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="节省内存"><a href="#节省内存" class="headerlink" title="节省内存"></a>节省内存</h3><p>运行一些操作可能会导致为新结果分配内存。例如，如果我们用 <code>Y = X + Y</code>，我们将取消引用 Y 指向的张量，而是指向新分配的内存处的张量。</p>
+<p>可以用 <code>X[:] = X + Y</code> 或 <code>X += Y</code> 来减少操作的内存开销。</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">before = <span class="built_in">id</span>(X)</span><br><span class="line">X += Y</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">id</span>(X) == before)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">True</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="转换为其他-Python-对象"><a href="#转换为其他-Python-对象" class="headerlink" title="转换为其他 Python 对象"></a>转换为其他 Python 对象</h3><p>将深度学习框架定义的张量转换为 NumPy 张量 <code>ndarray</code> 很容易，反之也同样容易。<code>torch</code> 张量和 <code>numpy</code> 数组将共享它们的底层内存，就地操作更改一个张量也会同时更改另一个张量。</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = X.numpy()</span><br><span class="line">B = torch.tensor(A)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(A))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(B))</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numpy.ndarray</span><br><span class="line">torch.Tensor</span><br></pre></td></tr></tbody></table></figure>
+
+<p>要将大小为 1 的张量转换为 Python 标量，我们可以调用 item 函数或 Python 的内置函数。</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = torch.tensor([<span class="number">3.5</span>])</span><br><span class="line"><span class="built_in">print</span>(a, a.item(), <span class="built_in">float</span>(a), <span class="built_in">int</span>(a))</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(tensor([<span class="number">3.5000</span>]), <span class="number">3.5</span>, <span class="number">3.5</span>, <span class="number">3</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DeepLearning/" rel="tag"><i class="fa fa-tag"></i> DeepLearning</a>
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/Pytorch/" rel="tag"><i class="fa fa-tag"></i> Pytorch</a>
+              <a href="/tags/D2L/" rel="tag"><i class="fa fa-tag"></i> D2L</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/02/04/Heyi/" rel="prev" title="雪中，校门这头，一点思绪">
+                  <i class="fa fa-angle-left"></i> 雪中，校门这头，一点思绪
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/02/05/Note%20for%20D2L-2.2/" rel="next" title="《动手学习深度学习》学习笔记 - 2.2 数据预处理">
+                  《动手学习深度学习》学习笔记 - 2.2 数据预处理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">YufengPeng</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+
+</body>
+</html>
